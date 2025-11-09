@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aashman — Portfolio</title>
+    <meta
+      name="description"
+      content="Aashman — Portfolio: projects, skills, contact."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container nav">
+        <a href="#" class="logo">A<span>V</span></a>
+        <nav class="links">
+          <a href="#projects">Projects</a>
+          <a href="#skills">Skills</a>
+          <a href="#about">About</a>
+          <a href="#contact" class="btn">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <section class="hero container">
+      <div class="hero-text">
+        <h1>Hi, I'm <span>Aashman</span>.</h1>
+        <p class="lede">
+          Tech enthusiast exploring the bridge between
+          <strong>hardware, software, and AI/ML</strong> — passionate about
+          design, performance, and everything in between.
+        </p>
+
+        <div class="cta">
+          <a href="#projects" class="btn">View Projects</a>
+          <a href="#contact" class="ghost">Contact Me</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="container section">
+      <h2>Featured Projects</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Smart Cart (ESP32 + Firebase)</h3>
+          <p>
+            Dual load cells via HX711, Wi‑Fi telemetry, Firestore backend, and
+            theft-protection ideas with vision.
+          </p>
+          <ul class="tags">
+            <li>ESP32</li>
+            <li>Python</li>
+            <li>Firebase</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Jenkins Master–Agent Setup</h3>
+          <p>
+            Controller in Docker with inbound Windows agent over WebSocket. CI
+            pipeline proof.
+          </p>
+          <ul class="tags">
+            <li>Jenkins</li>
+            <li>Docker</li>
+            <li>CI/CD</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>Dashboard UI (Dark)</h3>
+          <p>
+            Responsive, mobile‑first dashboard with animated sidebar, profile
+            panel, and wallet card.
+          </p>
+          <ul class="tags">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JS</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="skills" class="container section">
+      <h2>Skills</h2>
+      <ul class="skills">
+        <li>C++</li>
+        <li>AI/ML Fundamentals</li>
+        <li>Python</li>
+        <li>HTML/CSS</li>
+        <li>SQL</li>
+        <li>Microcontroller Programming</li>
+      </ul>
+    </section>
+
+    <section id="languages" class="container section">
+      <h2>Languages</h2>
+      <ul class="skills">
+        <li>English (Fluent)</li>
+        <li>Hindi (Native)</li>
+        <li>German (Beginner, A1 Level)</li>
+      </ul>
+    </section>
+
+    <section id="about" class="container section">
+      <h2>About</h2>
+      <p>
+        I’ve always been fascinated by technology in every form — from the raw
+        beauty of silicon wafers that power modern processors to the elegance of
+        software, design, and intelligence that bring them to life. What started
+        with building custom gaming PCs and exploring hardware evolved into a
+        deep interest in
+        <strong>Artificial Intelligence and Machine Learning (AI/ML)</strong>,
+        where I get to combine logic, creativity, and data to build smarter
+        systems. I love everything tech and take pride in understanding how
+        things work, how they’re built, and how thoughtful engineering and
+        design can shape the way we experience the digital world.
+      </p>
+    </section>
+
+    <section id="contact" class="container section">
+      <h2>Contact</h2>
+      <form
+        action="https://formspree.io/f/xdkynywv"
+        method="POST"
+        class="contact-form"
+      >
+        <input name="name" placeholder="Your name" required />
+        <input
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+        />
+        <textarea
+          name="message"
+          rows="5"
+          placeholder="Say hi…"
+          required
+        ></textarea>
+        <button type="submit" class="btn">Send</button>
+      </form>
+    </section>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© <span id="year"></span> Aashman — All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
