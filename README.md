@@ -1,22 +1,38 @@
-# Aashman — Portfolio (Fast Deploy)
+# 🌐 Personal Portfolio Website — Aashman Singh Verma
 
-This is a minimal, modern, **static** portfolio built with HTML/CSS only. Deploy it in minutes via **GitHub Pages** or **Netlify**.
-
-## Quick Edit
-- Open `index.html` and replace text in sections: Hero, Projects, Skills, About, Contact.
-- For the contact form, create a free form at **Formspree** and replace `your_form_id` in the `action` URL.
-
-## Deploy — GitHub Pages
-1. Create a repo named **`<your-username>.github.io`** (replace with your GitHub username).
-2. Upload these files (`index.html`, `styles.css`) to the repo root.
-3. Visit `https://<your-username>.github.io` — your site is live.
-
-## Deploy — Netlify (drag & drop)
-1. Go to https://app.netlify.com/drop
-2. Drag the folder with this site. Netlify hosts it instantly and gives you a public URL.
-
-## Optional: Custom domain
-Point your domain’s DNS (CNAME) to `<your-username>.github.io` for GitHub Pages, or use Netlify’s domain settings.
+### Live Site  
+🔗 **[https://not-aashman.github.io](https://not-aashman.github.io)**  
 
 ---
-Generated 2025-11-09 17:34
+
+## 📘 Project Overview
+A responsive personal portfolio website built using **HTML5** and **CSS3**, showcasing projects, skills, and contact information.  
+The website is hosted on **GitHub Pages** with automated **CI/CD** configured via **GitHub Actions**.
+
+Each new commit to the main branch triggers an automatic build and redeployment, ensuring continuous integration and deployment.
+
+---
+
+## 🧠 Features
+- Responsive layout for desktop and mobile  
+- Sections for Projects, Skills, About, and Contact  
+- Functional contact form via **Formspree**  
+- Automated deployment using **GitHub Actions**  
+- Cloud hosting via **GitHub Pages**  
+- Versioned backups through **Git**
+
+---
+
+## ⚙️ Tech Stack
+- **Frontend:** HTML5, CSS3  
+- **Automation:** GitHub Actions (CI/CD)  
+- **Hosting:** GitHub Pages  
+- **Form Handling:** Formspree  
+
+---
+
+## 🚀 Deployment
+This repository is configured with a GitHub Actions workflow:
+
+```yaml
+.github/workflows/deploy.yml
