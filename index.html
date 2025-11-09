@@ -3,7 +3,43 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Portfolio of Aashman Singh Verma — AIML student. Projects across AI/ML, IoT, and DevOps with clean UI/UX and automated CI/CD."
+    />
+    <meta property="og:title" content="Aashman Singh Verma — Portfolio" />
+    <meta
+      property="og:description"
+      content="AI/ML • IoT • DevOps. Clean UI/UX, real projects, and automated CI/CD."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://not-aashman.github.io" />
+    <meta
+      property="og:image"
+      content="https://not-aashman.github.io/favicon-512.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aashman Singh Verma — Portfolio" />
+    <meta
+      name="twitter:description"
+      content="AI/ML • IoT • DevOps. Clean UI/UX, real projects, and automated CI/CD."
+    />
+    <meta
+      name="twitter:image"
+      content="https://not-aashman.github.io/favicon-512.png"
+    />
+
     <title>Aashman — Portfolio</title>
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="apple-touch-icon-180.png"
+    />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
     <meta
       name="description"
       content="Aashman — Portfolio: projects, skills, contact."
@@ -48,42 +84,66 @@
     <section id="projects" class="container section">
       <h2>Featured Projects</h2>
       <div class="grid">
-        <article class="card">
-          <h3>Smart Cart (ESP32 + Firebase)</h3>
+        <a
+          class="card"
+          href="https://cropcure-home.vercel.app/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Crop Cure Project"
+        >
+          <h3>Crop Cure 🌿🤖</h3>
           <p>
-            Dual load cells via HX711, Wi‑Fi telemetry, Firestore backend, and
-            theft-protection ideas with vision.
+            AI-powered web app that helps farmers identify crop diseases simply
+            by uploading a photo of the plant. Built with a focus on
+            accessibility and agricultural innovation.
           </p>
           <ul class="tags">
-            <li>ESP32</li>
-            <li>Python</li>
-            <li>Firebase</li>
+            <li>AI/ML</li>
+            <li>Web App</li>
+            <li>Computer Vision</li>
           </ul>
-        </article>
-        <article class="card">
-          <h3>Jenkins Master–Agent Setup</h3>
+        </a>
+
+        <a
+          class="card"
+          href="https://github.com/not-aashman/jenkins-master-slave-setup-project"
+          target="_blank"
+          rel="noopener"
+          aria-label="Jenkins Master–Slave Setup Project"
+        >
+          <h3>Jenkins Master–Slave Setup ⚙️🐳</h3>
           <p>
-            Controller in Docker with inbound Windows agent over WebSocket. CI
-            pipeline proof.
+            End-to-end CI/CD environment featuring a Jenkins controller running
+            in Docker and a Windows inbound agent connected via WebSocket.
+            Automates build and deployment for scalable pipelines.
           </p>
           <ul class="tags">
             <li>Jenkins</li>
             <li>Docker</li>
             <li>CI/CD</li>
           </ul>
-        </article>
-        <article class="card">
-          <h3>Dashboard UI (Dark)</h3>
+        </a>
+
+        <a
+          class="card"
+          href="https://livecart-1407.web.app/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Smart Cart Project"
+        >
+          <h3>Smart Cart 🛒🤖</h3>
           <p>
-            Responsive, mobile‑first dashboard with animated sidebar, profile
-            panel, and wallet card.
+            End-to-end IoT project using ESP32 and dual load cells for real-time
+            weight tracking. Features barcode scanning, computer vision theft
+            detection, and a Firebase dashboard.
           </p>
           <ul class="tags">
-            <li>HTML</li>
-            <li>CSS</li>
-            <li>JS</li>
+            <li>IoT</li>
+            <li>ESP32</li>
+            <li>Computer Vision</li>
+            <li>Firebase</li>
           </ul>
-        </article>
+        </a>
       </div>
     </section>
 
@@ -144,18 +204,46 @@
           placeholder="Say hi…"
           required
         ></textarea>
-        <button type="submit" class="btn">Send</button>
+        <button id="sendBtn" class="btn" type="submit">Send</button>
       </form>
     </section>
 
     <footer class="site-footer">
-      <div class="container">
-        <p>© <span id="year"></span> Aashman — All rights reserved.</p>
-      </div>
+      <p class="credits">
+        Made with <span class="heart">🩵</span> by <strong>Aashman</strong>
+      </p>
     </footer>
 
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+
+    <script>
+      // Reveal sections as they enter viewport
+      const observer = new IntersectionObserver(
+        (entries) =>
+          entries.forEach(
+            (e) => e.isIntersecting && e.target.classList.add("reveal-in")
+          ),
+        { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+      );
+      document.querySelectorAll(".section").forEach((s) => {
+        s.classList.add("reveal");
+        observer.observe(s);
+      });
+    </script>
+
+    <script>
+      // Lightweight submit feedback
+      const form = document.querySelector("form");
+      const btn = document.getElementById("sendBtn");
+      if (form && btn) {
+        form.addEventListener("submit", () => {
+          btn.disabled = true;
+          btn.textContent = "Sending…";
+          btn.style.opacity = 0.85;
+        });
+      }
     </script>
   </body>
 </html>
