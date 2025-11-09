@@ -1,4 +1,5 @@
 # 🌐 Personal Portfolio Website — Aashman Singh Verma
+![Deploy Portfolio Website](https://github.com/not-aashman/not-aashman.github.io/actions/workflows/deploy.yml/badge.svg)
 
 ### Live Site  
 🔗 **[https://not-aashman.github.io](https://not-aashman.github.io)**  
