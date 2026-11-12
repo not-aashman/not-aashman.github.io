@@ -16,9 +16,9 @@ let PREFERS_REDUCED_MOTION = REDUCED_MOTION_QUERY.matches;
 const onMotionPreferenceChange = (e) => {
   PREFERS_REDUCED_MOTION = e.matches;
   if (e.matches && window.app) {
-    if (window.app.hologram) {
-      window.app.hologram.stopLoop();
-      hideHologramCanvas();
+    if (window.app.particleField) {
+      window.app.particleField.stopLoop();
+      hideParticleCanvas();
     }
     if (window.app.scroll && window.app.scroll.lenis) {
       window.app.scroll.lenis.stop();
@@ -427,14 +427,14 @@ function loadThree() {
   return threeLoadPromise;
 }
 
-function hideHologramCanvas() {
-  const canvas = document.getElementById("hologram-canvas");
+function hideParticleCanvas() {
+  const canvas = document.getElementById("particle-canvas");
   if (canvas) canvas.style.display = "none";
 }
 
-class Hologram3D {
+class ParticleField {
   constructor() {
-    this.canvas = document.getElementById("hologram-canvas");
+    this.canvas = document.getElementById("particle-canvas");
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(
       45,
@@ -453,41 +453,16 @@ class Hologram3D {
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.renderer.setClearColor(0x000000, 0);
 
-    this.mouse = new THREE.Vector2(0.5, 0.5);
-    this.targetMouse = new THREE.Vector2(0.5, 0.5);
-    this.targetRotation = new THREE.Vector2(0, 0);
     this.clock = new THREE.Clock();
-    this.mesh = null;
     this.particles = null;
     this.rafId = null;
-    this.fade = 1;
-    this.fadeTarget = 1;
 
     this.init();
   }
 
   init() {
-    const textureLoader = new THREE.TextureLoader();
-    textureLoader.load(
-      "Front.jpeg",
-      (texture) => {
-        texture.minFilter = THREE.LinearFilter;
-        texture.magFilter = THREE.LinearFilter;
-        this.createMesh(texture);
-        this.createParticles();
-        this.startLoop();
-      },
-      undefined,
-      () => {
-        // Fail loudly, and still build the rest of the scene: the particle
-        // field does not depend on the portrait texture.
-        console.error(
-          "[Hologram3D] Front.jpeg failed to load — portrait mesh skipped. Add Front.jpeg to this folder.",
-        );
-        this.createParticles();
-        this.startLoop();
-      },
-    );
+    this.createParticles();
+    this.startLoop();
 
     // setSize() reallocates the drawing buffer, so don't do it per event.
     let resizeTimer = null;
@@ -498,114 +473,15 @@ class Hologram3D {
 
     document.addEventListener("visibilitychange", () => this.syncLoop());
 
-    const hero = document.getElementById("hero");
-    if (hero && "IntersectionObserver" in window) {
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach((e) => {
-            this.fadeTarget = e.isIntersecting ? 1 : 0;
-          });
-        },
-        { threshold: 0 },
-      ).observe(hero);
-    }
-
     // A mid-session context loss otherwise throws once per frame from outside
     // the try/catch that guarded construction.
     if (this.canvas) {
       this.canvas.addEventListener("webglcontextlost", (e) => {
         e.preventDefault();
         this.stopLoop();
-        hideHologramCanvas();
+        hideParticleCanvas();
       });
     }
-    window.addEventListener("mousemove", (e) => this.onMouseMove(e));
-  }
-
-  createMesh(texture) {
-    const geometry = new THREE.PlaneGeometry(2.2, 2.8, 64, 64);
-
-    const material = new THREE.ShaderMaterial({
-      uniforms: {
-        uTexture: { value: texture },
-        uTime: { value: 0 },
-        uMouse: { value: new THREE.Vector2(0.5, 0.5) },
-        uHover: { value: 1.0 },
-        uFade: { value: 1 },
-      },
-      vertexShader: `
-                uniform float uTime;
-                uniform vec2 uMouse;
-                uniform float uHover;
-                varying vec2 vUv;
-                varying float vDist;
-
-                void main() {
-                    vUv = uv;
-                    vec3 pos = position;
-
-                    float dist = distance(uv, uMouse);
-                    float ripple = sin(dist * 20.0 - uTime * 3.0) * 0.08 * uHover;
-                    float wave = sin(pos.x * 4.0 + uTime * 0.8) * 0.015 + sin(pos.y * 4.0 + uTime * 0.6) * 0.015;
-
-                    pos.z += ripple + wave;
-                    vDist = dist;
-
-                    gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-                }
-            `,
-      fragmentShader: `
-                uniform sampler2D uTexture;
-                uniform float uTime;
-                uniform vec2 uMouse;
-                uniform float uHover;
-                uniform float uFade;
-                varying vec2 vUv;
-                varying float vDist;
-
-                void main() {
-                    vec2 uv = vUv;
-
-                    // Chromatic aberration
-                    float aberration = 0.015 * uHover * (1.0 - vDist);
-                    vec4 cr = texture2D(uTexture, uv + vec2(aberration, 0.0));
-                    vec4 cg = texture2D(uTexture, uv);
-                    vec4 cb = texture2D(uTexture, uv - vec2(aberration, 0.0));
-
-                    vec4 color = vec4(cr.r, cg.g, cb.b, cg.a);
-
-                    // Scanlines
-                    float scanline = sin(uv.y * 600.0) * 0.03;
-                    color.rgb -= scanline;
-
-                    // Vignette
-                    float vig = 1.0 - smoothstep(0.4, 1.2, length(uv - 0.5) * 2.0);
-                    color.rgb *= vig;
-
-                    // Holographic tint — matches --accent (#20daff)
-                    color.rgb += vec3(0.01, 0.05, 0.06) * (1.0 - vDist) * uHover;
-
-                    // Pulse glow
-                    float pulse = sin(uTime * 1.5) * 0.03 + 0.97;
-                    color.rgb *= pulse;
-
-                    // Straight alpha, not premultiplied: this material leaves
-                    // premultipliedAlpha at its default false, so three.js
-                    // blends it (SRC_ALPHA, ONE_MINUS_SRC_ALPHA). Scaling rgb
-                    // here as well would apply uFade twice and roughly double
-                    // the fade rate. Measured over #050505: 200 -> 122 -> 64
-                    // -> 25 as uFade goes 1.0 -> 0.6 -> 0.3 -> 0.1.
-                    gl_FragColor = color;
-                    gl_FragColor.a *= uFade;
-                }
-            `,
-      transparent: true,
-      side: THREE.DoubleSide,
-    });
-
-    this.mesh = new THREE.Mesh(geometry, material);
-    this.mesh.position.set(0.8, 0, 0);
-    this.scene.add(this.mesh);
   }
 
   createParticles() {
@@ -633,11 +509,6 @@ class Hologram3D {
     this.scene.add(this.particles);
   }
 
-  onMouseMove(e) {
-    this.targetMouse.x = e.clientX / window.innerWidth;
-    this.targetMouse.y = 1.0 - e.clientY / window.innerHeight;
-  }
-
   onResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -661,9 +532,8 @@ class Hologram3D {
     this.rafId = null;
   }
 
-  // Tab visibility gates the loop; the hero observer drives the portrait fade.
-  // The canvas is a site-wide background, so the hero scrolling away is not a
-  // reason to stop rendering.
+  // Tab visibility gates the loop. The canvas is a site-wide background, so
+  // the hero scrolling away is not a reason to stop rendering.
   syncLoop() {
     if (document.visibilityState === "visible") this.startLoop();
     else this.stopLoop();
@@ -671,27 +541,6 @@ class Hologram3D {
 
   renderFrame() {
     const time = this.clock.getElapsedTime();
-
-    this.mouse.x += (this.targetMouse.x - this.mouse.x) * 0.05;
-    this.mouse.y += (this.targetMouse.y - this.mouse.y) * 0.05;
-
-    // Ease the portrait in and out rather than popping it.
-    this.fade += (this.fadeTarget - this.fade) * 0.06;
-
-    if (this.mesh) {
-      this.mesh.visible = this.fade > 0.01;
-      this.mesh.material.uniforms.uFade.value = this.fade;
-      this.mesh.material.uniforms.uTime.value = time;
-      this.mesh.material.uniforms.uMouse.value = this.mouse;
-
-      this.targetRotation.x = (this.mouse.y - 0.5) * 0.3;
-      this.targetRotation.y = (this.mouse.x - 0.5) * 0.3;
-
-      this.mesh.rotation.x +=
-        (this.targetRotation.x - this.mesh.rotation.x) * 0.05;
-      this.mesh.rotation.y +=
-        (this.targetRotation.y - this.mesh.rotation.y) * 0.05;
-    }
 
     if (this.particles) {
       this.particles.rotation.y = time * 0.05;
@@ -1094,7 +943,7 @@ class App {
   constructor() {
     this.preloader = new Preloader(() => this.onLoadComplete());
     this.scroll = null;
-    this.hologram = null;
+    this.particleField = null;
     this.animations = null;
     this.ui = null;
   }
@@ -1114,19 +963,19 @@ class App {
     }
 
     // The hero reads fine without the canvas, so any failure here is silent.
-    this.hologram = null;
+    this.particleField = null;
     if (PREFERS_REDUCED_MOTION || !webglAvailable()) {
-      hideHologramCanvas();
+      hideParticleCanvas();
     } else {
       loadThree()
         .then(() => {
           try {
-            this.hologram = new Hologram3D();
+            this.particleField = new ParticleField();
           } catch (err) {
-            hideHologramCanvas();
+            hideParticleCanvas();
           }
         })
-        .catch(() => hideHologramCanvas());
+        .catch(() => hideParticleCanvas());
     }
     try {
       this.animations = new AnimationController();

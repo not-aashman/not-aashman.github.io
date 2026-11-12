@@ -246,7 +246,7 @@ body {
 
 /* Fixed, full-viewport, behind all content: the particle field is the
    background for the whole site, not just the hero. */
-#hologram-canvas {
+#particle-canvas {
     position: fixed;
     inset: 0;
     width: 100%;
@@ -1700,7 +1700,7 @@ button:focus-visible,
         display: none;
     }
 
-    #hologram-canvas {
+    #particle-canvas {
         display: none;
     }
 
