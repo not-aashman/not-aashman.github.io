@@ -1,37 +1,32 @@
+<a href="https://not-aashman.github.io">
+  <img src="assets/images/og-card.png" alt="Aashman Singh Verma" />
+</a>
+
 # not-aashman.github.io
 
-Source for my personal site: **https://not-aashman.github.io**
+This is the code behind my personal site. It's where I keep the things I've built, what I've studied and a way to get in touch, all wrapped in a dark, slightly glitchy look that I had far more fun making than I expected to.
 
-Plain HTML, CSS and JavaScript. No framework, no bundler and no build step.
+**→ [Visit the site](https://not-aashman.github.io)**
 
-## What's here
+## How it's made
 
-| Path | What it is |
-|---|---|
-| `index.html` | The site |
-| `404.html` | Standalone error page. It loads no scripts, so it still works if a CDN is down, and uses root-absolute paths so it stays styled at any missing URL |
-| `assets/css/style.css`, `assets/js/script.js` | Styles and behaviour |
-| `assets/images/` | Project images, the About portrait and the link-preview card |
-| `assets/icons/` | Favicons |
-| `cv/` | Web copy of my CV (PDF) |
-| `robots.txt` | Keeps the CV PDF out of search results |
-| `.github/workflows/deploy.yml` | Publishes the site to GitHub Pages on every push to `main` |
+Everything is hand-written HTML, CSS and JavaScript. No framework, no build step, and possibly a few more animations than strictly necessary.
 
-Local notes (`*.md` other than this README, `notes/`) are git-ignored, so they stay on my machine and are never published.
+- Headings unscramble themselves as they come into view.
+- A field of cyan particles drifts behind the whole page.
+- Images stay black and white until you hover over them.
+- Scanlines, Japanese text and a dot-matrix font hold the look together.
 
-## Run it locally
+It still behaves when it should: with reduced motion turned on, nothing scrambles or drifts, and with JavaScript off, every word is still there.
 
-```bash
-python -m http.server 8000
-```
+## Easter eggs
 
-Then open http://localhost:8000.
+There are a few hidden around the site, and not all of them explain themselves. Cheats are off, so you'll have to find them yourself.
 
-## Third-party code and fonts
+## Built with
 
-- [GSAP](https://gsap.com/) 3.12.5 and ScrollTrigger, from cdnjs
-- [Lenis](https://github.com/darkroomengineering/lenis) 1.3.23, from unpkg
-- [Three.js](https://threejs.org/) r128, from cdnjs, loaded only when WebGL is available and reduced motion is off
-- Google Fonts: Doto, Alata, JetBrains Mono and Reggae One
+[GSAP](https://gsap.com/) and ScrollTrigger · [Lenis](https://github.com/darkroomengineering/lenis) · [Three.js](https://threejs.org/) · Google Fonts (Doto, Alata, JetBrains Mono, Reggae One) · hosted on GitHub Pages
 
-The scripts load with Subresource Integrity hashes. Without JavaScript the page is still fully readable.
+---
+
+<sub>Thanks for reading this far :)</sub>
