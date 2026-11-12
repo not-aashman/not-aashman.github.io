@@ -1,249 +1,899 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#050505" />
+    <title>Aashman Singh Verma | Computer Science and Engineering</title>
+
     <meta
       name="description"
-      content="Portfolio of Aashman Singh Verma — AIML student. Projects across AI/ML, IoT, and DevOps with clean UI/UX and automated CI/CD."
+      content="Aashman Singh Verma: projects across hardware, machine learning and software, including a self-checkout smart cart, a plant-disease classifier and an animal detector."
     />
-    <meta property="og:title" content="Aashman Singh Verma — Portfolio" />
+    <link rel="canonical" href="https://not-aashman.github.io/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://not-aashman.github.io/" />
+    <meta
+      property="og:title"
+      content="Aashman Singh Verma | Computer Science and Engineering"
+    />
     <meta
       property="og:description"
-      content="AI/ML • IoT • DevOps. Clean UI/UX, real projects, and automated CI/CD."
+      content="Projects across hardware, machine learning and software: a self-checkout smart cart, a plant-disease classifier and an animal detector."
     />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://not-aashman.github.io" />
     <meta
       property="og:image"
-      content="https://not-aashman.github.io/favicon-512.png"
+      content="https://not-aashman.github.io/og-card.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Aashman Singh Verma: hardware, machine learning and software."
+    />
+    <meta property="og:site_name" content="Aashman Singh Verma" />
+    <meta property="og:locale" content="en_IN" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Aashman Singh Verma — Portfolio" />
+    <meta
+      name="twitter:title"
+      content="Aashman Singh Verma | Computer Science and Engineering"
+    />
     <meta
       name="twitter:description"
-      content="AI/ML • IoT • DevOps. Clean UI/UX, real projects, and automated CI/CD."
+      content="Projects across hardware, machine learning and software: a self-checkout smart cart, a plant-disease classifier and an animal detector."
     />
     <meta
       name="twitter:image"
-      content="https://not-aashman.github.io/favicon-512.png"
+      content="https://not-aashman.github.io/og-card.png"
     />
 
-    <title>Aashman — Portfolio</title>
-    <!-- Favicons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <!-- ΛV mark: white lambda, cyan V, black ground. SVG below is the vector
+         twin of favicon-512.png — if one changes, change the other. -->
     <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="apple-touch-icon-180.png"
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000000'/%3E%3Ctext x='32' y='46' text-anchor='middle' font-family='ui-monospace,monospace' font-size='38' font-weight='700'%3E%3Ctspan fill='%23ffffff'%3E%CE%9B%3C/tspan%3E%3Ctspan fill='%2320daff'%3EV%3C/tspan%3E%3C/text%3E%3C/svg%3E"
     />
-    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="./favicon-180.png" />
 
-    <meta
-      name="description"
-      content="Aashman — Portfolio: projects, skills, contact."
-    />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Doto:wght@400;700&family=Alata&family=JetBrains+Mono:wght@400;500;700&family=Reggae+One&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=2025-11-09-1">
+    <!-- Three.js is NOT loaded here. It is ~600KB and is only needed if the
+         reduced-motion and WebGL checks both pass, so script.js fetches it
+         dynamically from onLoadComplete(). SRI hash lives there too. -->
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+      integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+      integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      defer
+      src="https://unpkg.com/lenis@1.3.23/dist/lenis.min.js"
+      integrity="sha384-iiCtod6ZId6zT42Bar9EFXNKZh8X4VliWYWFOuY3/t1AxCvLejXExXcbluoc57CJ"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./style.css?v=2026-11-12-2" />
+
+    <noscript>
+      <style>
+        /* JS off: the preloader can never be dismissed, so never show it. */
+        #preloader { display: none !important; }
+        .scanlines { display: none; }
+      </style>
+    </noscript>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Aashman Singh Verma",
+        "url": "https://not-aashman.github.io/",
+        "email": "mailto:reach_aashman@outlook.com",
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "LNCT University"
+        },
+        "knowsAbout": [
+          "Computer Science",
+          "Machine Learning",
+          "Computer Vision",
+          "Embedded Systems",
+          "Internet of Things"
+        ],
+        "knowsLanguage": ["Hindi", "English"],
+        "sameAs": [
+          "https://github.com/not-aashman",
+          "https://www.linkedin.com/in/asv11/"
+        ]
+      }
+    </script>
   </head>
+
   <body>
-    <header class="site-header">
-      <div class="container nav">
-        <a href="#" class="logo">A<span>V</span></a>
-        <nav class="links">
-          <a href="#projects">Projects</a>
-          <a href="#skills">Skills</a>
-          <a href="#about">About</a>
-          <a href="#contact" class="btn">Contact</a>
-        </nav>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- Site-wide particle field. Lives outside #hero because that section
+         clips its children (overflow: hidden); fixed and behind everything. -->
+    <canvas id="hologram-canvas" aria-hidden="true"></canvas>
+    <div class="scanlines"></div>
+    <div id="preloader">
+      <div class="preloader-logo">A<span class="nl">V</span></div>
+      <div class="preloader-boot">
+        booting up<span class="boot-cursor" aria-hidden="true">_</span>
       </div>
-    </header>
+      <div class="preloader-bar-wrap">
+        <div class="preloader-bar" id="preloader-bar"></div>
+      </div>
+      <div class="preloader-text" id="preloader-text">0%</div>
+    </div>
+    <div id="top-progress-line"></div>
+    <nav id="main-nav">
+      <div class="nav-logo">A<span class="nl">V</span></div>
+      <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Work</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#working-style">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-    <section class="hero container">
-      <div class="hero-text">
-        <h1>Hi, I'm <span>Aashman</span>.</h1>
-        <p class="lede">
-          Tech enthusiast exploring the bridge between
-          <strong>hardware, software, and AI/ML</strong> — passionate about
-          design, performance, and everything in between.
-        </p>
+    <main id="main" tabindex="-1">
+    <section id="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-left">
+          <span class="hero-eyebrow" aria-hidden="true">] sv_cheats 0</span>
+          <h1 class="hero-title">
+            <span class="decrypt-text">Aashman</span>
+            <span class="surname decrypt-text">Singh Verma</span>
+          </h1>
+          <div class="hero-jp" lang="ja">アーシュマン・ヴェルマ</div>
+          <div class="hero-warning">
+            I like finding out how things work<br />
+            by building them: from PC hardware<br />
+            to sensors to image models.
+          </div>
+          <div class="hero-cta">
+            <a href="#projects" class="view-btn">View Work</a>
+            <!-- ./cv/Aashman_Singh_Verma_CV.pdf is the web copy of the CV: same
+                 content as the submitted one, without the phone number and with
+                 the public email. Regenerate it with CV/build_cv.js (the
+                 _CV_Web output) whenever the CV changes; never publish the
+                 submitted file itself. No `download` attribute on purpose: the
+                 browser then opens the PDF in its own viewer rather than
+                 dropping it in Downloads. -->
+            <a
+              class="view-btn"
+              href="./cv/Aashman_Singh_Verma_CV.pdf"
+              target="_blank"
+              rel="noopener"
+              >Curriculum Vitae</a
+            >
+          </div>
+        </div>
+        <div class="hero-right"></div>
+      </div>
+      <div class="hero-meta">
+        <!-- Bar widths and spacing are deliberate, not decorative. Do not regenerate. -->
+        <svg
+          class="barcode"
+          viewBox="-10 0 120 30"
+          width="100"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <rect x="0" y="0" width="12" height="30" fill="#888" />
+          <rect x="17" y="0" width="4" height="30" fill="#888" />
+          <rect x="34" y="0" width="4" height="30" fill="#888" />
+          <rect x="51" y="0" width="12" height="30" fill="#888" />
+          <rect x="68" y="0" width="12" height="30" fill="#888" />
+          <rect x="93" y="0" width="4" height="30" fill="#888" />
+          <rect x="102" y="0" width="4" height="30" fill="#888" />
+        </svg>
+        <div
+          class="barcode-num decrypt-text"
+          data-shuffle-speed="100"
+          data-speed="60"
+        >
+          1325 1801
+        </div>
+        <div class="serial decrypt-text" data-shuffle-speed="90" data-speed="80">
+          6D69-7A7A-6C65
+        </div>
+      </div>
+      <div class="bg-watermark" aria-hidden="true">権無</div>
+    </section>
 
-        <div class="cta">
-          <a href="#projects" class="btn">View Projects</a>
-          <a href="#contact" class="ghost">Contact Me</a>
+    <section id="about">
+      <div class="about-header">
+        <h2
+          class="about-title decrypt-text"
+          data-shuffle-speed="80"
+          data-speed="20"
+        >
+          ABOUT ME
+        </h2>
+        <div class="about-line"></div>
+      </div>
+      <div class="about-intro neu-card">
+        <div class="about-intro-img">
+          <img
+            src="Front.jpeg"
+            alt="Aashman Singh Verma"
+            width="800"
+            height="800"
+            loading="lazy"
+            decoding="async"
+            draggable="false"
+            onerror="
+              this.closest('.about-intro-img').classList.add('img-missing');
+              this.remove();
+            "
+          />
+        </div>
+        <div class="about-intro-text">
+          <h3>Hey, I'm Aashman.</h3>
+          <p>
+            Like a lot of people, I got into computers through games and stayed
+            for the hardware. I still build and upgrade PCs and tune gaming
+            setups in my spare time, and I'm planning a small project for my
+            desk at the moment: an ambient light behind my monitor that reacts
+            to what's on screen.
+          </p>
+          <p>
+            Most of what I know started the same way: something worked, I wanted
+            to know why, and I opened it up to find out. Sometimes that's a
+            graphics card, sometimes a few lines of firmware, sometimes a model
+            that refuses to learn. I'm more interested in how the pieces fit
+            together than in any one of them, and I'm still finding out which
+            pieces I like best.
+          </p>
+        </div>
+      </div>
+      <div class="about-body">
+        <div class="edu-card edu-card--primary neu-card">
+          <span class="panel-tag">2022 – 2026</span>
+          <h3>B.Tech in Computer Science and Engineering</h3>
+          <h4 class="panel-school">LNCT University, Bhopal · AI/ML specialisation</h4>
+          <p>
+            Graduated in 2026 with a CGPA of 7.75 / 10 (77.50%, First Division),
+            and an SGPA of 8.56 and 8.33 across the final two semesters.
+          </p>
+          <span class="edu-cohort">Core coursework</span>
+          <div class="chip-row">
+            <span class="chip">Analysis and Design of Algorithms</span
+            ><span class="chip">Operating Systems</span
+            ><span class="chip">Computer Networks</span
+            ><span class="chip">Database Management Systems</span
+            ><span class="chip">Computer Organization and Architecture</span
+            ><span class="chip">Internet of Things</span>
+          </div>
+
+          <!-- Nested, not a sibling card: this coursework happened INSIDE the
+               degree, so it is subordinate to it rather than a second education. -->
+          <div class="edu-sub">
+            <h4 class="edu-sub-title">AI/ML coursework with Samatrix.io</h4>
+            <p class="edu-sub-body">
+              The AI/ML side of the degree was taught by practitioners from
+              Samatrix.io, the university's industry partner, across 12
+              certified courses between February 2024 and December 2025.
+            </p>
+            <details class="edu-more">
+              <summary class="edu-more-toggle">Show all 12 courses</summary>
+
+            <!-- Credential cards. The `cred-id` on each is the real serial
+                 number printed on that certificate, not a decorative string.
+                 Do not invent, pad, or reformat these values. -->
+            <span class="edu-cohort">Foundations · Feb 2024</span>
+            <div class="cred-grid">
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Foundation to AI, Data Science &amp; Analytics</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Feb 2024</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8q9t02A</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Data Analysis Using Python</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Feb 2024</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8A8PpVC</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Statistics Using Python</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Feb 2024</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8Q78ZiL</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">R Programming for Data Science</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Feb 2024</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy80gbn4Z</span>
+              </article>
+            </div>
+
+            <span class="edu-cohort">Machine Learning · Apr 2025</span>
+            <div class="cred-grid">
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Machine Learning &amp; Pattern Recognition</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Apr 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8qbFguy</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Advance Machine Learning</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Apr 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8dGA2WS</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Deep Learning</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Apr 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8UkOOtf</span>
+              </article>
+            </div>
+
+            <span class="edu-cohort">Applied &amp; Advanced · Dec 2025</span>
+            <div class="cred-grid">
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Deep Learning and Neural Network</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Dec 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8LxjpTo</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Natural Language Processing</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Dec 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8UIi63X</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Data Science: Tools and Techniques</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Dec 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8iV0S9d</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">Data Visualization</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Dec 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8UdMaYH</span>
+              </article>
+              <article class="cred">
+                <div class="cred-main">
+                  <h5 class="cred-title">DevOps</h5>
+                  <div class="cred-meta">
+                    <span class="cred-issuer">Samatrix.io</span
+                    ><span class="cred-date">Dec 2025</span>
+                  </div>
+                </div>
+                <span class="cred-id">roy8Mbrb0r</span>
+              </article>
+            </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- Awards and external certifications. Full-width and horizontal:
+             as a single narrow card the SWAYAM entry read as an empty column. -->
+        <div class="cred-extra">
+          <span class="edu-cohort">Awards</span>
+
+          <!-- Framing note: "National Science Day" is the occasion (28 Feb, a
+               nationwide observance), not the scope of the contest. The contest
+               itself was run by LNCT Excellence's Institution's Innovation
+               Council. Described as institution-level accordingly — do not
+               relabel this as a national award. -->
+          <article class="award">
+            <div class="award-rank"><strong>1</strong><span>st</span></div>
+            <div class="award-body">
+              <h4 class="award-title">Mock-up Design Contest: First Place</h4>
+              <p class="award-desc">
+                Our team took first place in the National Science Day mock-up
+                design contest, on the theme "Science and Innovation for Viksit
+                Bharat", with Sign Setu: a concept for recognising Indian Sign
+                Language in real time, to ease the shortage of human
+                interpreters. The idea was mine; a teammate built the prototype,
+                and I worked on the pitch and presentation.
+              </p>
+              <div class="cred-meta">
+                <span class="cred-issuer">Institution's Innovation Council</span
+                ><span class="cred-date">LNCT Excellence, Bhopal</span
+                ><span class="cred-date">2025</span>
+              </div>
+            </div>
+          </article>
+
+          <span class="edu-cohort">Certifications</span>
+          <div class="cred-grid">
+            <!-- Roll number deliberately omitted: it appears on the NTA score
+                 card alongside personal data, so it is not published here. -->
+            <article class="cred cred--wide">
+              <div class="cred-main">
+                <h5 class="cred-title">Web Technology</h5>
+                <p class="cred-sub">
+                  4-credit course · <strong>71%</strong> in a proctored
+                  examination · certified by IGNOU
+                </p>
+                <div class="cred-meta">
+                  <span class="cred-issuer">SWAYAM · Govt. of India</span
+                  ><span class="cred-date">Uttarakhand Open Univ.</span
+                  ><span class="cred-date">May 2025</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="cred">
+              <div class="cred-main">
+                <h5 class="cred-title">Introduction to Internet of Things</h5>
+                <div class="cred-meta">
+                  <span class="cred-issuer">Cisco Networking Academy</span
+                  ><span class="cred-date">Jan 2025</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="cred">
+              <div class="cred-main">
+                <h5 class="cred-title">Introduction to Data Science</h5>
+                <div class="cred-meta">
+                  <span class="cred-issuer">Cisco Networking Academy</span
+                  ><span class="cred-date">Jan 2025</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="cred">
+              <div class="cred-main">
+                <h5 class="cred-title">Introduction to Cybersecurity</h5>
+                <div class="cred-meta">
+                  <span class="cred-issuer">Cisco Networking Academy</span
+                  ><span class="cred-date">Jan 2025</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="cred">
+              <div class="cred-main">
+                <h5 class="cred-title">API Fundamentals Student Expert</h5>
+                <div class="cred-meta">
+                  <span class="cred-issuer">Postman</span
+                  ><span class="cred-date">Aug 2024</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="cred">
+              <div class="cred-main">
+                <h5 class="cred-title">Computer Vision</h5>
+                <div class="cred-meta">
+                  <span class="cred-issuer">Udemy</span
+                  ><span class="cred-date">Mar 2025</span>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="projects" class="container section">
-      <h2>Featured Projects</h2>
-      <div class="grid">
-        <a
-          class="card"
-          href="https://cropcure-home.vercel.app/"
-          target="_blank"
-          rel="noopener"
-          aria-label="Crop Cure Project"
-        >
-          <h3>Crop Cure 🌿🤖</h3>
-          <p>
-            AI-powered web app that helps farmers identify crop diseases simply
-            by uploading a photo of the plant. Built with a focus on
-            accessibility and agricultural innovation.
+    <section id="projects">
+      <div class="proj-sticky-outer">
+        <div class="proj-header">
+          <span class="sec-eyebrow">Selected Work</span>
+          <h2 class="sec-title">Systems, not<br /><em>notebooks.</em></h2>
+          <div class="sec-divider"></div>
+          <p class="sec-desc">
+            Three team projects, from a four-day hackathon build to a
+            final-year system.
           </p>
-          <ul class="tags">
-            <li>AI/ML</li>
-            <li>Web App</li>
-            <li>Computer Vision</li>
-          </ul>
-        </a>
+        </div>
 
-        <a
-          class="card"
-          href="https://github.com/not-aashman/jenkins-master-slave-setup-project"
-          target="_blank"
-          rel="noopener"
-          aria-label="Jenkins Master–Slave Setup Project"
-        >
-          <h3>Jenkins Master–Slave Setup ⚙️🐳</h3>
-          <p>
-            End-to-end CI/CD environment featuring a Jenkins controller running
-            in Docker and a Windows inbound agent connected via WebSocket.
-            Automates build and deployment for scalable pipelines.
-          </p>
-          <ul class="tags">
-            <li>Jenkins</li>
-            <li>Docker</li>
-            <li>CI/CD</li>
-          </ul>
-        </a>
+        <article class="proj-card">
+          <div class="pc-left"><span class="pc-num">01</span></div>
+          <div class="pc-body">
+            <h3 class="pc-title">CAELIX: Frictionless Checkout Smart Cart</h3>
+            <p class="pc-team">
+              Team of 3 · <a href="https://www.linkedin.com/in/abhishree-soni-92b319320/" target="_blank" rel="noopener">Abhishree Soni</a>
+              and <a href="https://www.linkedin.com/in/khanak-agrawal-361277210/" target="_blank" rel="noopener">Khanak Agrawal</a>
+            </p>
+            <p class="pc-desc">
+              A self-checkout shopping cart built to take the queue out of
+              grocery shopping. Shoppers scan items on their phone as they go,
+              and the cart checks every item three ways: the barcode that was
+              scanned, the change in weight measured by load cells in the cart,
+              and a camera running object detection. If the three disagree, the
+              item is flagged to a store dashboard instead of slipping through.
+              A QR code ties each cart to a shopper's session, and the dashboard
+              shows live carts, stock levels and alerts. It started as an entry
+              for Walmart Sparkathon 2025 and became a final-year project.
+            </p>
+            <div class="pc-tags">
+              <span class="pc-tag">ESP32</span><span class="pc-tag">HX711</span
+              ><span class="pc-tag">YOLOv8</span
+              ><span class="pc-tag">OpenCV</span
+              ><span class="pc-tag">Flask</span
+              ><span class="pc-tag">Firebase</span>
+            </div>
+            <div class="pc-links">
+              <!-- Part B: when Aashman's PR adding docs/hardware.md is open on the
+                   team repository, add a third link, "Hardware Write-up", pointing at
+                   that file or PR. Not before: a 404 is worse than no link. -->
+              <a
+                href="https://livecart-1407.web.app/"
+                class="view-btn"
+                target="_blank"
+                rel="noopener"
+                >View Project</a
+              >
+              <a
+                href="https://github.com/Khanakag-17/CAELIX_Smart_Cart_System"
+                class="view-btn"
+                target="_blank"
+                rel="noopener"
+                >GitHub Repo</a
+              >
+            </div>
+          </div>
+          <div class="pc-media">
+            <div class="pc-img">
+              <img
+                src="./caelix-landing.webp"
+                alt="The CAELIX landing page."
+                width="1200"
+                height="750"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="pc-img">
+              <img
+                src="./caelix-hardware.webp"
+                alt="The CAELIX cart electronics: an ESP32 microcontroller on perfboard wired to two HX711 amplifiers and two load cells, with a battery pack."
+                width="1200"
+                height="750"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </article>
 
-        <a
-          class="card"
-          href="https://livecart-1407.web.app/"
-          target="_blank"
-          rel="noopener"
-          aria-label="Smart Cart Project"
-        >
-          <h3>Caelix System Smart Cart 🛒🤖</h3>
-          <p>
-            End-to-end IoT project using ESP32 and dual load cells for real-time
-            weight tracking. Features barcode scanning, computer vision theft
-            detection, and a Firebase dashboard.
-          </p>
-          <ul class="tags">
-            <li>IoT</li>
-            <li>ESP32</li>
-            <li>Computer Vision</li>
-            <li>Firebase</li>
-          </ul>
-        </a>
+        <article class="proj-card">
+          <div class="pc-left"><span class="pc-num">02</span></div>
+          <div class="pc-body">
+            <h3 class="pc-title">Crop Cure: Plant Disease Classification</h3>
+            <p class="pc-team">
+              Team of 4 · <a href="https://www.linkedin.com/in/anurag-kushwaha-929609258/" target="_blank" rel="noopener">Anurag Kushwah</a>,
+              <a href="https://www.linkedin.com/in/parth-nagar-430161273/" target="_blank" rel="noopener">Parth Nagar</a>
+              and <a href="https://www.linkedin.com/in/yashchaurasia01/" target="_blank" rel="noopener">Yash Chaurasia</a>
+            </p>
+            <p class="pc-desc">
+              A web app that identifies plant diseases from a photo of a leaf.
+              It recognises 38 classes of healthy and diseased leaves across
+              crops such as apple, grape, potato and tomato, using a
+              convolutional neural network trained from scratch on the
+              PlantVillage dataset, and reached 94.74% accuracy on a held-out
+              validation set of 10,861 images. For each diagnosis it also
+              suggests a treatment. The model runs in the browser through
+              TensorFlow.js. It began as a four-day build for Smart India
+              Hackathon 2024.
+            </p>
+            <div class="pc-tags">
+              <span class="pc-tag">Python</span
+              ><span class="pc-tag">TensorFlow</span
+              ><span class="pc-tag">Keras</span
+              ><span class="pc-tag">CNN</span
+              ><span class="pc-tag">TensorFlow.js</span>
+            </div>
+            <div class="pc-links">
+              <a
+                href="https://crop-cure-livid.vercel.app/"
+                class="view-btn"
+                target="_blank"
+                rel="noopener"
+                >View Project</a
+              >
+              <!-- Part B: add "GitHub Repo" -> github.com/not-aashman/crop-cure once that repo exists. -->
+            </div>
+          </div>
+          <div class="pc-media">
+            <div class="pc-img">
+              <img
+                src="./cropcure-landing.webp"
+                alt="The Crop Cure landing page."
+                width="1200"
+                height="750"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <div class="pc-img">
+              <img
+                src="./cropcure-app.webp"
+                alt="The Crop Cure web app's result for an apple leaf: black rot, with a suggested fungicide treatment."
+                width="1200"
+                height="750"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </article>
+
+        <article class="proj-card">
+          <div class="pc-left"><span class="pc-num">03</span></div>
+          <div class="pc-body">
+            <h3 class="pc-title">Multi-Class Animal Detection</h3>
+            <p class="pc-team">
+              Team of 4 · <a href="https://www.linkedin.com/in/abhishree-soni-92b319320/" target="_blank" rel="noopener">Abhishree Soni</a>,
+              <a href="https://www.linkedin.com/in/khanak-agrawal-361277210/" target="_blank" rel="noopener">Khanak Agrawal</a>
+              and <a href="https://www.linkedin.com/in/parth-nagar-430161273/" target="_blank" rel="noopener">Parth Nagar</a>
+            </p>
+            <p class="pc-desc">
+              An object detector that finds and labels 20 species of animals in
+              a photo, from cats and cows to cheetahs, pandas and zebras. It
+              fine-tunes a pretrained YOLOv8 model on a 2,000-image dataset that
+              the team collected and annotated by hand in Roboflow, 100 images
+              per species, with augmentation such as flips, scaling and colour
+              shifts to stretch a small dataset further. A Streamlit app serves
+              as the demo.
+            </p>
+            <div class="pc-tags">
+              <span class="pc-tag">Python</span
+              ><span class="pc-tag">YOLOv8</span
+              ><span class="pc-tag">Roboflow</span
+              ><span class="pc-tag">Streamlit</span>
+            </div>
+            <div class="pc-links">
+              <a
+                href="https://www.kaggle.com/datasets/notaashman/multiclass-animal-detection"
+                class="view-btn"
+                target="_blank"
+                rel="noopener"
+                >View Dataset</a
+              >
+              <!-- Part B: add "GitHub Repo" -> github.com/not-aashman/multiclass-animal-detection
+                   once it exists. Add a results line only from a real run, never
+                   from best_model.pt (the stock COCO model). -->
+            </div>
+          </div>
+          <div class="pc-media">
+            <div class="pc-img">
+              <img
+                src="./animal-labels.webp"
+                alt="Six training images from the team's dataset with their hand-drawn bounding boxes: cheetah, panda, tiger, rhino, elephant and zebra."
+                width="1200"
+                height="750"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
-    <section id="skills" class="container section">
-      <h2>Skills</h2>
-      <ul class="skills">
-        <li>C++</li>
-        <li>AI/ML Fundamentals</li>
-        <li>Python</li>
-        <li>HTML/CSS</li>
-        <li>SQL</li>
-        <li>Microcontroller Programming</li>
-      </ul>
+    <section id="skills">
+      <div class="skills-inner">
+        <span class="sec-eyebrow">Technical Skills</span>
+        <h2 class="sec-title">What I actually<br /><em>work with.</em></h2>
+        <div class="sec-divider"></div>
+        <div class="skills-grid">
+          <div class="skill-group neu-card">
+            <h3 class="sg-title">Machine learning</h3>
+            <div class="chip-row">
+              <span class="chip">Python</span
+              ><span class="chip">TensorFlow / Keras</span
+              ><span class="chip">CNN Training and Evaluation</span
+              ><span class="chip">YOLOv8</span
+              ><span class="chip">Roboflow</span>
+            </div>
+          </div>
+          <div class="skill-group neu-card">
+            <h3 class="sg-title">Embedded systems</h3>
+            <div class="chip-row">
+              <span class="chip">ESP32</span
+              ><span class="chip">HX711 and Load-Cell Sensing</span
+              ><span class="chip">Sensor Calibration</span
+              ><span class="chip">Embedded Firmware</span>
+            </div>
+          </div>
+          <div class="skill-group neu-card">
+            <h3 class="sg-title">Tools</h3>
+            <div class="chip-row">
+              <span class="chip">Git</span><span class="chip">GitHub</span>
+            </div>
+          </div>
+          <div class="skill-group neu-card">
+            <h3 class="sg-title">Languages</h3>
+            <div class="chip-row">
+              <span class="chip">Hindi: Native</span
+              ><span class="chip">English: C1 (IELTS Academic 7.0)</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="languages" class="container section">
-      <h2>Languages</h2>
-      <ul class="skills">
-        <li>English (Fluent)</li>
-        <li>Hindi (Native)</li>
-        <li>German (Beginner, A1 Level)</li>
-      </ul>
+    <section id="working-style">
+      <div class="ws-inner">
+        <span class="sec-eyebrow">How I Work</span>
+        <h2 class="sec-title">Three things<br /><em>I care about.</em></h2>
+        <div class="sec-divider"></div>
+        <div class="ws-grid">
+          <div class="ws-card neu-card">
+            <span class="wc-num">01</span>
+            <h3 class="wc-title">Get a rough version running</h3>
+            <p class="wc-desc">
+              I'd rather have something rough working early than a perfect plan
+              on paper. A version that runs is where the real problems show up,
+              and it gives everyone on the team something concrete to react to.
+            </p>
+          </div>
+          <div class="ws-card neu-card">
+            <span class="wc-num">02</span>
+            <h3 class="wc-title">Check what goes in first</h3>
+            <p class="wc-desc">
+              Most problems I've run into weren't in the clever part. They were
+              in what went into it: a sensor that drifts, or a label drawn a few
+              pixels off. I've learned to spend the slow, careful time there
+              before trusting anything that comes out.
+            </p>
+          </div>
+          <div class="ws-card neu-card">
+            <span class="wc-num">03</span>
+            <h3 class="wc-title">Be clear about what a number means</h3>
+            <p class="wc-desc">
+              A result is only useful if you know what it was measured on and
+              what it wasn't. When I have one, I say where it came from; when I
+              don't, I'd rather leave the space empty than fill it with a guess.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section id="about" class="container section">
-      <h2>About</h2>
-      <p>
-        I’ve always been fascinated by technology in every form — from the raw
-        beauty of silicon wafers that power modern processors to the elegance of
-        software, design, and intelligence that bring them to life. What started
-        with building custom gaming PCs and exploring hardware evolved into a
-        deep interest in
-        <strong>Artificial Intelligence and Machine Learning (AI/ML)</strong>,
-        where I get to combine logic, creativity, and data to build smarter
-        systems. I love everything tech and take pride in understanding how
-        things work, how they’re built, and how thoughtful engineering and
-        design can shape the way we experience the digital world.
-      </p>
+    <section id="contact">
+      <div class="contact-inner">
+        <span class="sec-eyebrow">Get In Touch</span>
+        <h2 class="sec-title">Open to<br /><em>what's next.</em></h2>
+        <div class="sec-divider"></div>
+        <p class="sec-desc">
+          The form below or email is the quickest way to reach me.
+        </p>
+
+        <form
+          class="contact-form"
+          action="https://formspree.io/f/xdkynywv"
+          method="POST"
+        >
+          <div class="cf-row">
+            <label class="cf-field">
+              <span class="cf-label">Name</span>
+              <input type="text" name="name" placeholder="Your name" required />
+            </label>
+            <label class="cf-field">
+              <span class="cf-label">Email</span>
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                required
+              />
+            </label>
+          </div>
+          <label class="cf-field">
+            <span class="cf-label">Message</span>
+            <textarea
+              name="message"
+              rows="5"
+              placeholder="Say hi…"
+              required
+            ></textarea>
+          </label>
+          <button type="submit" class="view-btn cf-submit">Send Message</button>
+        </form>
+
+        <div class="contact-links">
+          <a href="mailto:reach_aashman@outlook.com" class="contact-link">Email</a>
+          <a
+            href="https://github.com/not-aashman"
+            class="contact-link"
+            target="_blank"
+            rel="noopener"
+            >GitHub</a
+          >
+          <a
+            href="https://www.linkedin.com/in/asv11/"
+            class="contact-link"
+            target="_blank"
+            rel="noopener"
+            >LinkedIn</a
+          >
+          <a
+            class="contact-link"
+            href="./cv/Aashman_Singh_Verma_CV.pdf"
+            target="_blank"
+            rel="noopener"
+            >Curriculum Vitae</a
+          >
+        </div>
+      </div>
     </section>
 
-    <section id="contact" class="container section">
-      <h2>Contact</h2>
-      <form
-        action="https://formspree.io/f/xdkynywv"
-        method="POST"
-        class="contact-form"
-      >
-        <input name="name" placeholder="Your name" required />
-        <input
-          type="email"
-          name="email"
-          placeholder="you@example.com"
-          required
-        />
-        <textarea
-          name="message"
-          rows="5"
-          placeholder="Say hi…"
-          required
-        ></textarea>
-        <button id="sendBtn" class="btn" type="submit">Send</button>
-      </form>
-    </section>
+    </main>
 
-    <footer class="site-footer">
-      <p class="credits">
-        Made with <span class="heart">🩵</span> by <strong>Aashman</strong>
-      </p>
+    <footer id="footer">
+      <div class="footer-jp" aria-hidden="true">終了</div>
+      <div class="footer-copy">
+        © 2026 Aashman Singh Verma · Thanks for scrolling this far
+        <span class="footer-smile" aria-hidden="true">:)</span>
+      </div>
     </footer>
 
-    <script>
-      document.getElementById("year").textContent = new Date().getFullYear();
-    </script>
-
-    <script>
-      // Reveal sections as they enter viewport
-      const observer = new IntersectionObserver(
-        (entries) =>
-          entries.forEach(
-            (e) => e.isIntersecting && e.target.classList.add("reveal-in")
-          ),
-        { root: null, rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
-      );
-      document.querySelectorAll(".section").forEach((s) => {
-        s.classList.add("reveal");
-        observer.observe(s);
-      });
-    </script>
-
-    <script>
-      // Lightweight submit feedback
-      const form = document.querySelector("form");
-      const btn = document.getElementById("sendBtn");
-      if (form && btn) {
-        form.addEventListener("submit", () => {
-          btn.disabled = true;
-          btn.textContent = "Sending…";
-          btn.style.opacity = 0.85;
-        });
-      }
-    </script>
+    <script defer src="./script.js?v=2026-11-12-2"></script>
   </body>
 </html>

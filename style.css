@@ -1,0 +1,1707 @@
+:root {
+    --accent: #20daff;
+    --accent-rgb: 32, 218, 255;
+    --accent-glow: rgba(var(--accent-rgb), 0.4);
+    --bg: #050505;
+    --bg-elevated: #0a0a0a;
+    --surface: #111111;
+    --surface-light: #1a1a1a;
+    --text: #e0e0e0;
+    --text-dim: #888888;
+    /* Doto is a dot-matrix display face — characterful at 2rem+, hard to read
+       at 0.65rem. It is now display-only; small technical text uses a real
+       mono. Redefining --font-mono means every small element inherits the
+       readable face without touching 30 individual rules. */
+    --font-display: 'Doto', monospace;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --font-body: 'Alata', sans-serif;
+    --font-jp: 'Reggae One', serif;
+
+    /* Spacing scale. Section padding and card padding come from here so the
+       vertical rhythm is a system rather than a series of one-off choices. */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 5rem;
+    --space-3xl: 8rem;
+
+    --measure: 60ch;
+
+    /* Text sitting ON an accent fill, not on the dark ground. Do not reuse
+       these for text on --bg; #fff there is 18.4:1 and correct as-is. */
+    --on-accent: #050505;        /* 12.16:1 on --accent */
+    --text-muted: #8a8a8a;       /* credential serials, secondary meta — 5.90:1 */
+    --text-placeholder: #858585; /* form placeholders — 5.12:1 */
+    --error: #ff8a8a;            /* contact-form failure state */
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* An author `display` on a component beats the UA stylesheet's
+   [hidden] { display: none }, so the attribute silently stops working.
+   Restore it globally — this is what makes `hidden` reliable on .view-btn
+   and .contact-link, which is how the CV links stay off the page until the
+   PDF exists. */
+[hidden] {
+    display: none !important;
+}
+
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+}
+
+::selection {
+    background: var(--accent);
+    /* #fff on the cyan fill measures 1.68:1; near-black is 12.16:1 and reads
+       better — the cyan is bright enough that white looks like a bug. */
+    color: var(--on-accent);
+}
+
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+/* The same AV mark as the nav, larger: it is the focus of the loading screen. */
+.preloader-logo {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.001em;
+    user-select: none;
+}
+
+.preloader-logo .nl {
+    color: var(--accent);
+}
+
+.preloader-boot {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: lowercase;
+    /* #preloader spaces its children 2rem apart; this line belongs to the mark. */
+    margin-top: -1rem;
+}
+
+.boot-cursor {
+    margin-left: 0.15em;
+    animation: boot-blink 1s steps(1) infinite;
+}
+
+@keyframes boot-blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+.preloader-bar-wrap {
+    width: 200px;
+    height: 2px;
+    background: var(--surface-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.preloader-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--accent);
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.preloader-text {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+}
+
+#top-progress-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 0%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+    z-index: 9998;
+    transition: width 0.1s linear;
+}
+
+#main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+    pointer-events: none;
+}
+
+.nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.001em;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.nav-logo .nl {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+    pointer-events: auto;
+}
+
+.nav-links a {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover {
+    color: #fff;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+#hero {
+    position: relative;
+    width: 100%;
+    /* 100vh excludes collapsing mobile browser chrome, and a 700px floor
+       exceeds the visible area on a 360x640 device. svh with a vh fallback. */
+    height: 100vh;
+    height: 100svh;
+    min-height: 34rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fixed, full-viewport, behind all content: the particle field is the
+   background for the whole site, not just the hero. */
+#hologram-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Content sits above the canvas. Without this the particles would paint
+   over the page rather than behind it. */
+#main,
+#footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* The footer keeps the plain black ground it had before the particle field
+   went site-wide: opaque, so nothing shows through behind it. */
+#footer {
+    background: var(--bg);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 70% 50%, transparent 0%, rgba(5, 5, 5, 0.4) 60%, var(--bg) 100%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 4rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    pointer-events: none;
+}
+
+.hero-left {
+    pointer-events: auto;
+}
+
+.hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    /* Reads as something typed into a console: no uppercase, tighter tracking. */
+    letter-spacing: 0.08em;
+    text-transform: none;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.hero-title .surname {
+    display: block;
+    /* Fill plus stroke: the stroke alone measures 2.53:1, which made this the
+       least legible text on a page whose job is to make people remember the
+       name. The outline treatment survives. */
+    color: #8f8f8f;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+}
+
+.hero-jp {
+    font-family: var(--font-jp);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 2rem;
+}
+
+.hero-warning {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 400px;
+    border-left: 1px solid var(--accent);
+    padding-left: 1rem;
+}
+
+.hero-meta {
+    position: absolute;
+    top: 8rem;
+    right: 4rem;
+    text-align: right;
+    pointer-events: auto;
+}
+
+.barcode-num {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-top: 0.5rem;
+}
+
+.serial {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--accent);
+    margin-top: 0.25rem;
+}
+
+.bg-watermark {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    font-family: var(--font-jp);
+    font-size: 8rem;
+    color: rgba(255, 255, 255, 0.02);
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+section {
+    position: relative;
+    width: 100%;
+}
+
+.sec-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.sec-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.sec-title em {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+    font-style: normal;
+}
+
+.sec-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.sec-desc {
+    font-size: 1rem;
+    color: var(--text-dim);
+    max-width: 500px;
+    line-height: 1.6;
+}
+
+#about {
+    padding: var(--space-3xl) 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.about-header {
+    margin-bottom: 5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 2rem;
+}
+
+.about-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.about-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--surface-light), transparent);
+}
+
+.about-intro {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 4rem;
+    align-items: center;
+    margin-bottom: 6rem;
+    padding: 3rem;
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    position: relative;
+    overflow: hidden;
+}
+
+.about-intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0.5;
+}
+
+.about-intro-img {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid var(--surface-light);
+}
+
+.about-intro-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.1);
+    transition: filter 0.5s;
+}
+
+.about-intro:hover .about-intro-img img {
+    filter: grayscale(0%) contrast(1);
+}
+
+.about-intro-text h3 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-intro-text p {
+    color: var(--text-dim);
+    line-height: 1.8;
+    font-size: 1rem;
+    max-width: var(--measure);
+}
+
+.about-intro-text p + p {
+    margin-top: var(--space-md);
+}
+
+.about-body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Panels awaiting real content — visually distinct so unfilled data can't be
+   mistaken for finished content. Remove this class once the panel is filled. */
+
+.panel-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.panel-school {
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+}
+
+#projects {
+    padding: var(--space-3xl) 0;
+}
+
+.proj-sticky-outer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+}
+
+.proj-header {
+    margin-bottom: 6rem;
+    max-width: 600px;
+}
+
+.proj-card {
+    position: sticky;
+    top: 100px;
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    padding: 3rem;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 80px 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+    transition: transform 0.3s, box-shadow 0.3s;
+    will-change: transform;
+}
+
+/* Shared card surface. Referenced by .about-intro and the education/skill
+   cards; those also set their own background/border, so this is the base. */
+.neu-card {
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+}
+
+/* Project cards with no screenshot yet — drops the image column. */
+.proj-card.no-img {
+    grid-template-columns: 80px 1fr;
+}
+
+/* Project images. A card with two stacks them: the page on top, the
+   evidence underneath. Never decorative stock. */
+.pc-media {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.pc-img {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border: 1px solid var(--surface-light);
+    background: var(--bg-elevated);
+}
+
+.pc-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* Same treatment as the About portrait: monochrome at rest, colour on
+       hover. The files themselves stay in colour. */
+    filter: grayscale(100%) contrast(1.1);
+    transition: filter 0.5s;
+}
+
+/* :focus-within gives keyboard users the same reveal when they tab to a
+   card's links. */
+.proj-card:hover .pc-img img,
+.proj-card:focus-within .pc-img img {
+    filter: grayscale(0%) contrast(1);
+}
+
+.proj-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.proj-card:hover::before {
+    opacity: 1;
+}
+
+.pc-num {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    writing-mode: vertical-rl;
+    letter-spacing: 0.1em;
+}
+
+.pc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.pc-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Team credit: one quiet line tucked under the title, on every card.
+   "Team of N", then the teammates, each linked to LinkedIn. */
+.pc-team {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    line-height: 1.9;
+    color: var(--text-dim);
+    letter-spacing: 0.06em;
+    /* .pc-body spaces its children 1.5rem apart; pull this up to the title. */
+    margin-top: -1rem;
+}
+
+.pc-team a {
+    color: var(--text);
+    /* A name never breaks in the middle when the line wraps. */
+    white-space: nowrap;
+    text-decoration: underline;
+    text-decoration-color: rgba(var(--accent-rgb), 0.4);
+    text-underline-offset: 3px;
+    transition: color 0.3s, text-decoration-color 0.3s;
+}
+
+.pc-team a:hover {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+}
+
+.pc-desc {
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-size: 0.95rem;
+    /* Without this the description inherits the full card width (~1046px at
+       1440px viewport = ~138 characters per line). Comfortable is 45-75. */
+    max-width: var(--measure);
+}
+
+.pc-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.pc-tag {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--surface-light);
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    transition: border-color 0.3s, color 0.3s, box-shadow 0.3s;
+}
+
+.pc-tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.view-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s;
+    background: transparent;
+    cursor: pointer;
+}
+
+.view-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    transition: left 0.3s;
+    z-index: -1;
+}
+
+.view-btn:hover {
+    color: var(--on-accent);
+}
+
+.view-btn:hover::before {
+    left: 0;
+}
+
+.pc-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+#contact {
+    padding: var(--space-3xl) 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.contact-inner {
+    max-width: 600px;
+}
+
+.contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.contact-link {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--accent);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.contact-link:hover {
+    background: var(--accent);
+    color: var(--on-accent);
+}
+
+#footer {
+    padding: var(--space-2xl) 4rem;
+    border-top: 1px solid var(--surface-light);
+    text-align: center;
+}
+
+.footer-jp {
+    font-family: var(--font-jp);
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.03);
+    margin-bottom: 2rem;
+    user-select: none;
+}
+
+.footer-copy {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    /* The copy is written in sentence case; this keeps the footer in the same
+       capitals as the nav and buttons. ":)" is unaffected. */
+    text-transform: uppercase;
+}
+
+.footer-smile {
+    color: var(--accent);
+    margin-left: 0.4em;
+}
+
+.scanlines {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0.05));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.3;
+}
+
+/* ── Education cards ──────────────────────────────────────────────────── */
+.edu-card {
+    padding: 2.5rem;
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.edu-card:hover {
+    border-color: rgba(var(--accent-rgb), 0.3);
+    transform: translateY(-3px);
+}
+
+.edu-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.edu-card p {
+    color: var(--text-dim);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+    max-width: var(--measure);
+}
+
+/* ── Chips: shared by coursework + skills ──────────────────────────────── */
+.chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.chip {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 0.35rem 0.75rem;
+    background: var(--bg);
+    border: 1px solid var(--surface-light);
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    transition: border-color 0.3s, color 0.3s;
+}
+
+.chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ── Skills ────────────────────────────────────────────────────────────── */
+#skills {
+    padding: var(--space-3xl) 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.skills-grid {
+    display: grid;
+    /* Fixed 2x2. auto-fit reflowed to 3+1 at some widths, leaving an orphan
+       card on its own row; four cards fill the 2x2 evenly, so pin the columns. */
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+    align-items: stretch;
+}
+
+/* Cards stretch to their row, so pin the heading and let chips fill down. */
+.skill-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.skill-group .chip-row {
+    align-content: flex-start;
+}
+
+.skill-group {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    transition: border-color 0.3s;
+}
+
+.skill-group:hover {
+    border-color: rgba(var(--accent-rgb), 0.3);
+}
+
+.sg-title {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--text);
+    margin-bottom: 1.25rem;
+    letter-spacing: 0.05em;
+}
+
+/* ── Hero CTA row ──────────────────────────────────────────────────────── */
+.hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* ── Missing portrait: render a labelled placeholder, never a broken img ── */
+.about-intro-img.img-missing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    border: 1px dashed rgba(var(--accent-rgb), 0.3);
+}
+
+.about-intro-img.img-missing::after {
+    content: 'Front.jpeg missing';
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* ── Contact form (Formspree) ──────────────────────────────────────────── */
+.contact-form {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 640px;
+}
+
+.cf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.cf-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.cf-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.contact-form input,
+.contact-form textarea {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    padding: 0.85rem 1rem;
+    width: 100%;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: var(--text-placeholder);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-glow);
+}
+
+.cf-status {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    padding-left: var(--space-sm);
+}
+
+.cf-status.is-error {
+    color: var(--error);
+    border-left-color: var(--error);
+}
+
+.cf-submit {
+    align-self: flex-start;
+    font-family: var(--font-mono);
+    margin-top: 0;
+}
+
+/* ── Keyboard focus ────────────────────────────────────────────────────────
+   There were no focus styles at all: tabbing through the site gave either the
+   browser default or, on the form inputs, nothing (outline was set to none).
+   :focus-visible targets keyboard users without ringing on mouse clicks. */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 1px;
+}
+
+a:focus-visible,
+button:focus-visible,
+.view-btn:focus-visible,
+.contact-link:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    color: #fff;
+}
+
+.contact-form input:focus-visible,
+.contact-form textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-color: var(--accent);
+}
+
+/* Skip-to-content affordance for keyboard users: off-screen until focused. */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 10000;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--accent);
+    color: var(--on-accent);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.skip-link:focus {
+    left: var(--space-sm);
+    top: var(--space-sm);
+}
+
+/* ── Text reveal states ───────────────────────────────────────────────────
+   .ts-pending = not yet reached by the sweep (dim placeholder glyph)
+   .ts-live    = actively scrambling (accent)
+   Both are transient; the original markup is restored on completion. */
+/* Katakana and Hangul are full-width — about twice a Latin advance. Pinning
+   each scrambled glyph to 1ch keeps the line box stable, so a paragraph does
+   not visibly re-wrap and shrink as it resolves. */
+.ts-pending,
+.ts-live {
+    display: inline-block;
+    width: 1ch;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: baseline;
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+    line-height: inherit;
+    white-space: nowrap;
+}
+
+.ts-pending {
+    color: var(--text-dim);
+    opacity: 0.45;
+}
+
+.ts-live {
+    color: var(--accent);
+    text-shadow: 0 0 6px var(--accent-glow);
+}
+
+/* ── Education: nested Samatrix track ─────────────────────────────────────
+   The track happened INSIDE the degree, so it is visually subordinate to it:
+   indented, lighter ground, left rule, smaller heading. */
+.about-body {
+    align-items: start;
+}
+
+.edu-card--primary {
+    grid-column: 1 / -1;
+}
+
+.edu-sub {
+    margin-top: var(--space-lg);
+    padding: var(--space-md) 0 var(--space-xs) var(--space-md);
+    border-left: 2px solid rgba(var(--accent-rgb), 0.35);
+    background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.04), transparent 70%);
+}
+
+.edu-sub-title {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+}
+
+.edu-sub-body {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: var(--measure);
+    margin-bottom: var(--space-md);
+}
+
+.edu-cohort {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: var(--space-md) 0 var(--space-xs);
+}
+
+/* The 12 Samatrix courses sit behind a native <details>, closed by default,
+   so the list costs one line until someone asks for it. Works without JS. */
+.edu-more-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    padding: 0.4rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    user-select: none;
+    /* Replace the default disclosure triangle with the + / x below. */
+    list-style: none;
+}
+
+.edu-more-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.edu-more-toggle::before {
+    content: '+';
+    display: inline-block;
+    width: 1ch;
+    font-size: 1rem;
+    line-height: 1;
+    text-align: center;
+}
+
+.edu-more[open] > .edu-more-toggle::before {
+    content: '\00d7';
+}
+
+.edu-more[open] > .edu-more-toggle {
+    margin-bottom: var(--space-xs);
+}
+
+.edu-more-toggle:hover {
+    color: var(--text);
+}
+
+/* ── Credentials ──────────────────────────────────────────────────────────
+   Certificates were previously rendered as `.chip`s, which read as keyword
+   tags and undersold real issued coursework. These are credential records:
+   title, issuer, date, and the actual serial number printed on the
+   certificate. No "verified" ticks — nothing third-party has verified these,
+   and a decorative checkmark would imply otherwise. The serial is the honest
+   verification affordance: it is the value someone would quote to Samatrix. */
+.cred-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: var(--space-md);
+}
+
+.cred {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.85rem 1rem 0.75rem 1.1rem;
+    background: var(--bg);
+    border: 1px solid var(--surface-light);
+    transition: border-color 0.3s, background 0.3s;
+}
+
+/* Left rule: the credential-document cue, and it carries the accent without
+   needing a heavier border on all four sides. */
+.cred::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(var(--accent-rgb), 0.45);
+    transition: background 0.3s;
+}
+
+.cred:hover {
+    border-color: rgba(var(--accent-rgb), 0.35);
+    background: var(--surface);
+}
+
+.cred:hover::before {
+    background: var(--accent);
+}
+
+.cred-title {
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--text);
+}
+
+.cred-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.cred-issuer,
+.cred-date {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.cred-issuer {
+    padding: 0.15rem 0.4rem;
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    color: var(--accent);
+}
+
+.cred-date {
+    color: var(--text-dim);
+}
+
+/* Serial numbers are long and low-priority: dim, monospace, allowed to break
+   rather than forcing the card wider. */
+.cred-id {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    word-break: break-all;
+}
+
+.cred-id::before {
+    content: 'ID ';
+    color: var(--text-muted);
+}
+
+/* Secondary line inside a credential — score, credits, scope. */
+.cred-sub {
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+}
+
+.cred-sub strong {
+    color: var(--text);
+}
+
+/* The SWAYAM entry carries more detail than a course title, so on wide
+   viewports it takes two tracks and reads horizontally rather than as a lone
+   narrow column. Spanning 2 is gated behind a min-width: `.cred-grid` uses
+   auto-fill/minmax(270px), so below ~760px it resolves to a single track and
+   `span 2` forced an implicit second column — 24px of horizontal overflow. */
+.cred--wide {
+    grid-column: span 1;
+}
+
+/* ── Awards ───────────────────────────────────────────────────────────────
+   Distinct from `.cred`: an award is not a completed course, so it gets a
+   rank marker and a fuller description rather than the compact card. */
+.cred-extra {
+    grid-column: 1 / -1;
+    margin-top: var(--space-lg);
+}
+
+.award {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-md);
+    align-items: start;
+    padding: 1.15rem 1.35rem;
+    background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.06), transparent 60%);
+    border: 1px solid rgba(var(--accent-rgb), 0.25);
+    margin-bottom: var(--space-md);
+}
+
+.award-rank {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    min-width: 62px;
+    padding: 0.4rem 0.6rem;
+    border: 1px solid rgba(var(--accent-rgb), 0.35);
+    background: var(--bg);
+}
+
+.award-rank strong {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    line-height: 1;
+    color: var(--accent);
+}
+
+.award-rank span {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.award-title {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+}
+
+.award-desc {
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+    max-width: var(--measure);
+    margin-bottom: 0.6rem;
+}
+
+.award-desc strong {
+    color: var(--text);
+}
+
+/* ── How I Work ───────────────────────────────────────────────────────────
+   Three cards in a plain grid. The old six-card horizontal pinned track was
+   deleted with the previous version of this section; a scroll-jacked track
+   for three cards would be more machinery than the content warrants. */
+#working-style {
+    padding: var(--space-3xl) 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.ws-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.ws-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-lg);
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    transition: border-color 0.3s, transform 0.3s;
+}
+
+.ws-card:hover {
+    border-color: rgba(var(--accent-rgb), 0.3);
+    transform: translateY(-3px);
+}
+
+.wc-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+}
+
+.wc-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    line-height: 1.3;
+    margin-bottom: var(--space-sm);
+}
+
+.wc-desc {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    flex: 1;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────
+   RESPONSIVE OVERRIDES
+   Widest first, narrowest last: at 700px both the 1024 and 768 blocks match
+   and their selectors have equal specificity, so the narrower one must come
+   second or it never applies. Everything above this line is a base rule.
+   ────────────────────────────────────────────────────────────────────────── */
+
+@media (min-width: 760px) {
+    .cred--wide {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-meta {
+        display: none;
+    }
+
+    .about-intro {
+        grid-template-columns: 1fr;
+    }
+
+    .about-body {
+        grid-template-columns: 1fr;
+    }
+
+    /* Sticky stacking needs a card shorter than the viewport. Below this
+       width the cards are taller than the screen, so pinning hides their own
+       content — the tags and the links become unreachable. */
+    .proj-card {
+        position: static;
+    }
+
+    .proj-card,
+    .proj-card.no-img {
+        grid-template-columns: 1fr;
+    }
+
+    .pc-num {
+        writing-mode: horizontal-tb;
+    }
+
+    /* One column: images go below the text. Full width and stacked they ran
+       a card to ~1,700px at 1024, so sit them side by side here instead. */
+    .pc-media {
+        flex-direction: row;
+    }
+
+    .pc-media > .pc-img {
+        flex: 0 1 calc(50% - 0.5rem);
+        min-width: 0;
+    }
+
+    #skills,
+    #about,
+    #contact,
+    .proj-sticky-outer {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .ws-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+    }
+
+    #working-style {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #main-nav {
+        padding: 1rem 1.5rem;
+    }
+
+    .hero-content {
+        padding: 0 1.5rem;
+    }
+
+    #about,
+    #contact,
+    .proj-sticky-outer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    /* Six sections is too many to hide behind no affordance at all, so the
+       links become a compact scrollable row rather than disappearing. */
+    .nav-links {
+        display: flex;
+        gap: 1.1rem;
+        overflow-x: auto;
+        max-width: 72vw;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .nav-links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav-links a {
+        font-size: 0.62rem;
+        white-space: nowrap;
+        letter-spacing: 0.06em;
+    }
+
+    #skills {
+        padding: 5rem 1.5rem;
+    }
+
+    .cf-row {
+        grid-template-columns: 1fr;
+    }
+
+    .about-body,
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .skills-grid {
+        grid-auto-rows: auto;
+    }
+
+    .edu-card,
+    .skill-group,
+    .about-intro,
+    .proj-card {
+        padding: 1.75rem;
+    }
+
+    /* Too narrow for two images side by side to stay legible: stack them
+       again, at a width that keeps a card from running very tall. */
+    .pc-media {
+        flex-direction: column;
+        max-width: 560px;
+    }
+
+    .pc-media > .pc-img {
+        flex: none;
+    }
+
+    /* 4rem leaves only 262px for the copy at 390px. */
+    #footer {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    .hero-cta {
+        gap: 0.75rem;
+    }
+
+    .hero-cta .view-btn {
+        font-size: 0.65rem;
+        padding: 0.7rem 1rem;
+    }
+
+    #working-style {
+        padding: var(--space-2xl) 1.5rem;
+    }
+
+    .edu-sub {
+        padding-left: var(--space-sm);
+    }
+}
+
+@media (max-width: 400px) {
+    #main-nav {
+        padding: 0.85rem 1rem;
+    }
+
+    .nav-links {
+        gap: 0.85rem;
+        max-width: 68vw;
+    }
+
+    .nav-links a {
+        font-size: 0.58rem;
+    }
+
+    .hero-content,
+    #about,
+    #contact,
+    #skills,
+    .proj-sticky-outer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .proj-card,
+    .edu-card,
+    .skill-group,
+    .about-intro {
+        padding: 1.5rem;
+    }
+
+    .bg-watermark {
+        font-size: 4.5rem;
+    }
+
+    .footer-jp {
+        font-size: 2.5rem;
+    }
+
+    .pc-desc {
+        font-size: 0.9rem;
+    }
+
+    #working-style {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .ws-card {
+        padding: 1.5rem;
+    }
+
+    .edu-sub {
+        margin-top: var(--space-md);
+        padding-left: 0.75rem;
+    }
+
+    /* Credential cards: single column below 400px. The 270px minmax would
+       otherwise force a horizontal overflow inside the indented .edu-sub. */
+    .cred-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .award {
+        grid-template-columns: 1fr;
+        gap: var(--space-sm);
+    }
+
+    .award-rank {
+        justify-self: start;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .scanlines {
+        display: none;
+    }
+
+    #hologram-canvas {
+        display: none;
+    }
+
+    .proj-card {
+        position: static;
+        /* Nothing animates these under reduced motion; don't hold a layer. */
+        will-change: auto;
+    }
+
+    .edu-card:hover {
+        transform: none;
+    }
+
+    .ts-pending,
+    .ts-live {
+        color: inherit;
+        opacity: 1;
+        text-shadow: none;
+    }
+
+    .ws-card:hover {
+        transform: none;
+    }
+
+    .boot-cursor {
+        animation: none;
+    }
+}
