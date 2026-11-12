@@ -8,14 +8,16 @@ Plain HTML, CSS and JavaScript. No framework, no bundler and no build step.
 
 | Path | What it is |
 |---|---|
-| `index.html`, `style.css`, `script.js` | The site |
-| `404.html` | Standalone error page. It loads no scripts, so it still works if a CDN is down |
+| `index.html` | The site |
+| `404.html` | Standalone error page. It loads no scripts, so it still works if a CDN is down, and uses root-absolute paths so it stays styled at any missing URL |
+| `assets/css/style.css`, `assets/js/script.js` | Styles and behaviour |
+| `assets/images/` | Project images, the About portrait and the link-preview card |
+| `assets/icons/` | Favicons |
 | `cv/` | Web copy of my CV (PDF) |
-| `*.webp` | Project images |
-| `Front.jpeg` | Portrait for the About section |
-| `og-card.png`, `favicon-*.png` | Link-preview card and icons |
 | `robots.txt` | Keeps the CV PDF out of search results |
 | `.github/workflows/deploy.yml` | Publishes the site to GitHub Pages on every push to `main` |
+
+Local notes (`*.md` other than this README, `notes/`) are git-ignored, so they stay on my machine and are never published.
 
 ## Run it locally
 

@@ -939,7 +939,7 @@ section {
 }
 
 .about-intro-img.img-missing::after {
-    content: 'Front.jpeg missing';
+    content: 'portrait.jpeg missing';
     font-family: var(--font-mono);
     font-size: 0.7rem;
     color: var(--text-dim);

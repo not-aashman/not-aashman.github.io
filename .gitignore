@@ -1,0 +1,14 @@
+# Local notes and tools. Never committed, never published.
+CLAUDE.md
+notes/
+.claude/
+*.zip
+*.md
+!README.md
+
+# Operating-system and editor files
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+node_modules/
