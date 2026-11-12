@@ -363,12 +363,17 @@ body {
     margin-top: 0.25rem;
 }
 
+/* Set vertically, the traditional way to write Japanese: six characters
+   don't fit across a phone at a legible size. Sized off the viewport height
+   so the column runs about two-thirds of the hero. */
 .bg-watermark {
     position: absolute;
     bottom: 2rem;
     right: 2rem;
+    writing-mode: vertical-rl;
     font-family: var(--font-jp);
-    font-size: 8rem;
+    font-size: clamp(3rem, 11vh, 7rem);
+    line-height: 1;
     color: rgba(255, 255, 255, 0.02);
     z-index: 0;
     pointer-events: none;
@@ -1197,6 +1202,13 @@ button:focus-visible,
     margin-bottom: var(--space-md);
 }
 
+/* The certifications grid only (the Samatrix grids keep auto-fill): four
+   cards, two of them wide, fill exactly two rows of three tracks. */
+.cred-grid--certs {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: dense;
+}
+
 .cred {
     position: relative;
     display: flex;
@@ -1588,6 +1600,17 @@ button:focus-visible,
     .edu-sub {
         padding-left: var(--space-sm);
     }
+
+    /* Two tracks, one card each: the four fill two rows in date order. A wide
+       Web Technology card here would leave a hole beside Computer Vision, or
+       with `dense` pull Postman (2024) ahead of Cisco (Jan 2025). */
+    .cred-grid--certs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cred-grid--certs .cred--wide {
+        grid-column: span 1;
+    }
 }
 
 @media (max-width: 400px) {
@@ -1621,7 +1644,7 @@ button:focus-visible,
     }
 
     .bg-watermark {
-        font-size: 4.5rem;
+        right: 1rem;
     }
 
     .footer-jp {
@@ -1648,7 +1671,8 @@ button:focus-visible,
 
     /* Credential cards: single column below 400px. The 270px minmax would
        otherwise force a horizontal overflow inside the indented .edu-sub. */
-    .cred-grid {
+    .cred-grid,
+    .cred-grid--certs {
         grid-template-columns: 1fr;
     }
 
